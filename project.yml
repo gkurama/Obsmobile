@@ -1,0 +1,20 @@
+name: OBSMobile
+options:
+  bundleIdPrefix: com.g.obsmobile
+  deploymentTarget:
+    iOS: "16.0"
+targets:
+  OBSMobile:
+    type: application
+    platform: iOS
+    sources: [Sources]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.g.obsmobile.app
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_NSCameraUsageDescription: "O app usa a câmera para transmitir e gravar."
+        INFOPLIST_KEY_NSMicrophoneUsageDescription: "O app usa o microfone para transmitir e gravar."
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UISupportedInterfaceOrientations: "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
+        CODE_SIGNING_ALLOWED: NO
+        SWIFT_VERSION: "5.0"
