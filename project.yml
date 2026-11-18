@@ -14,14 +14,43 @@ targets:
     sources: [Sources]
     dependencies:
       - package: HaishinKit
+      - target: OBSMobileBroadcast
+        embed: true
+    info:
+      path: OBSMobile-Info.plist
+      properties:
+        NSCameraUsageDescription: "O app usa a câmera para transmitir e gravar."
+        NSMicrophoneUsageDescription: "O app usa o microfone para transmitir e gravar."
+        NSPhotoLibraryAddUsageDescription: "O app salva suas gravações na galeria."
+        NSLocalNetworkUsageDescription: "O app se conecta ao OBS e a servidores RTMP na sua rede local."
+        NSScreenCaptureUsageDescription: "O app captura e transmite o ecrã depois da confirmação no seletor do iOS."
+        NSAppTransportSecurity:
+          NSAllowsLocalNetworking: true
+        UILaunchScreen: {}
+        UIBackgroundModes:
+          - audio
+          - screen-capture
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.g.obsmobile.app
-        GENERATE_INFOPLIST_FILE: YES
-        INFOPLIST_KEY_NSCameraUsageDescription: "O app usa a câmera para transmitir e gravar."
-        INFOPLIST_KEY_NSMicrophoneUsageDescription: "O app usa o microfone para transmitir e gravar."
-        INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription: "O app salva suas gravações na galeria."
-        INFOPLIST_KEY_UILaunchScreen_Generation: YES
-        INFOPLIST_KEY_UISupportedInterfaceOrientations: "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
-        CODE_SIGNING_ALLOWED: NO
+        CODE_SIGN_ENTITLEMENTS: OBSMobile.entitlements
+        CODE_SIGN_STYLE: Automatic
+        SWIFT_VERSION: "5.0"
+  OBSMobileBroadcast:
+    type: app-extension
+    platform: iOS
+    sources: [BroadcastExtension]
+    dependencies:
+      - package: HaishinKit
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.g.obsmobile.app.broadcast
+        INFOPLIST_FILE: BroadcastExtension/Info.plist
+        CODE_SIGN_ENTITLEMENTS: BroadcastExtension/OBSMobileBroadcast.entitlements
+        APPLICATION_EXTENSION_API_ONLY: YES
+        SKIP_INSTALL: YES
         SWIFT_VERSION: "5.0"
