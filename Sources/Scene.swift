@@ -15,7 +15,7 @@ struct SourceItem: Identifiable {
     var kind: SourceKind
     var visible = true
     var locked = false
-    var x: CGFloat = 0.5      // posição relativa (0 a 1)
+    var x: CGFloat = 0.5
     var y: CGFloat = 0.5
     var scale: CGFloat = 1.0
     var text: String = ""
@@ -50,11 +50,38 @@ final class StudioModel: ObservableObject {
     @Published var isStreaming = false
     @Published var isRecording = false
     @Published var teleporterOn = false
-    @Published var teleporterAddress = "192.168.0.10:9000"
+    @Published var teleporterAddress = "192.168.0.10"
+    @Published var teleporterKey = "teleporter"
 
     let camera = CameraManager()
+    let recorder = Recorder()
+    let teleporter = Teleporter()
 
     var currentScene: StudioScene { scenes[selectedScene] }
+
+    func toggleRecording() {
+        if isRecording {
+            recorder.stop()
+            isRecording = false
+        } else {
+            recorder.attach(to: camera.session)
+            recorder.start()
+            isRecording = true
+        }
+    }
+
+    func toggleTeleporter() {
+        if teleporterOn {
+            teleporter.stop()
+            camera.session.startRunning()
+            teleporterOn = false
+        } else {
+            camera.session.stopRunning()
+            teleporter.start(address: "rtmp://\(teleporterAddress)/live",
+                             key: teleporterKey)
+            teleporterOn = true
+        }
+    }
 
     func addScene() {
         scenes.append(StudioScene(name: "Cena \(scenes.count + 1)"))
