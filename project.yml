@@ -3,17 +3,24 @@ options:
   bundleIdPrefix: com.g.obsmobile
   deploymentTarget:
     iOS: "16.0"
+packages:
+  HaishinKit:
+    url: https://github.com/shogo4405/HaishinKit.swift
+    from: 1.9.0
 targets:
   OBSMobile:
     type: application
     platform: iOS
     sources: [Sources]
+    dependencies:
+      - package: HaishinKit
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.g.obsmobile.app
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_KEY_NSCameraUsageDescription: "O app usa a câmera para transmitir e gravar."
         INFOPLIST_KEY_NSMicrophoneUsageDescription: "O app usa o microfone para transmitir e gravar."
+        INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription: "O app salva suas gravações na galeria."
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
         INFOPLIST_KEY_UISupportedInterfaceOrientations: "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
         CODE_SIGNING_ALLOWED: NO
